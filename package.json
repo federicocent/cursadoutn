@@ -1,0 +1,10 @@
+{
+  "name": "dondecurso-utn-frm",
+  "version": "1.0.0",
+  "description": "Buscador de aulas y laboratorios por curso y día para UTN FRM (gt.frm.utn.edu.ar/reservas/)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "sync": "node actualizar-datos.js"
+  }
+}

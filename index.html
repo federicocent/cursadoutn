@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>¿Dónde Curso? — UTN FRM</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="brand-logo">UTN</div>
+        <div>
+          <div class="brand-title">¿Dónde Curso? — UTN FRM</div>
+          <div class="brand-subtitle">
+            Fuente oficial:
+            <a href="http://gt.frm.utn.edu.ar/reservas/" target="_blank" rel="noopener">
+              gt.frm.utn.edu.ar/reservas
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="topbar-actions">
+        <span id="sync-status" class="sync-status">Cargando datos...</span>
+        <button id="btn-sync" type="button" class="btn btn-primary">
+          🔄 Actualizar desde UTN
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- PASO 1: SELECCIÓN DE CURSO -->
+    <section class="panel">
+      <div class="panel-header">
+        <div class="panel-title">
+          <span class="step-badge">1</span>
+          <span>Seleccioná tu Curso / Comisión</span>
+        </div>
+        <label class="checkbox-label">
+          <input type="checkbox" id="include-electivas" checked />
+          <span>Incluir electivas asociadas al curso</span>
+        </label>
+      </div>
+
+      <!-- Chips por Especialidad -->
+      <div class="field-group" style="margin-bottom: 0.65rem;">
+        <span class="field-label">Filtrar por Carrera / Especialidad</span>
+        <div id="esp-chips" class="chips-row"></div>
+      </div>
+
+      <!-- Chips por Año -->
+      <div class="field-group" style="margin-bottom: 0.9rem;">
+        <span class="field-label">Filtrar por Año de Cursado</span>
+        <div id="anio-chips" class="chips-row"></div>
+      </div>
+
+      <div class="filters-grid">
+        <div class="field-group">
+          <label class="field-label" for="course-select">Comisión Seleccionada</label>
+          <select id="course-select" class="select"></select>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="course-search">Buscar comisión rápida (ej. 1K01, 3X3, 2PRO1)</label>
+          <input
+            id="course-search"
+            type="text"
+            class="input"
+            placeholder="Escribí tu comisión: 1K1, 2K01, 3X3, 1P09..."
+            autocomplete="off"
+          />
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="subject-search">Filtrar por materia, profesor o aula (opcional)</label>
+          <input
+            id="subject-search"
+            type="text"
+            class="input"
+            placeholder="Ej: Algoritmos, Física, Ontiveros, Aula 02..."
+            autocomplete="off"
+          />
+        </div>
+      </div>
+
+      <div class="field-group">
+        <span class="field-label">Clic directo en tu comisión</span>
+        <div id="courses-grid" class="courses-grid"></div>
+      </div>
+    </section>
+
+    <!-- PASO 2: SELECCIÓN DE DÍA -->
+    <section class="panel">
+      <div class="panel-header">
+        <div class="panel-title">
+          <span class="step-badge">2</span>
+          <span>Seleccioná el Día de Cursado</span>
+        </div>
+      </div>
+
+      <div id="days-bar" class="days-bar"></div>
+
+      <div class="date-controls">
+        <div class="date-mode-group">
+          <label class="field-label" for="query-mode" style="margin-right: 0.35rem;">Modo:</label>
+          <select id="query-mode" class="select" style="width: auto;">
+            <option value="SEMANA_HABITUAL">Horario por Día de Semana</option>
+            <option value="FECHA_EXACTA">Por Fecha Exacta del Calendario</option>
+          </select>
+
+          <select id="semester-select" class="select" style="width: auto;">
+            <option value="2C">2° Cuatrimestre (Ago–Dic)</option>
+            <option value="1C">1° Cuatrimestre (Mar–Jul)</option>
+            <option value="ANUAL">Todo el Año 2026</option>
+          </select>
+
+          <input
+            type="date"
+            id="exact-date"
+            class="input"
+            style="width: auto; display: none;"
+            min="2026-01-01"
+            max="2026-12-31"
+          />
+        </div>
+      </div>
+    </section>
+
+    <!-- RESULTADOS: DÓNDE CURSAR -->
+    <section>
+      <div class="results-header" style="margin-bottom: 0.9rem;">
+        <h2 id="results-title" class="results-title">Aulas asignadas</h2>
+        <span id="results-count" class="results-count">0 clases</span>
+      </div>
+
+      <div id="results-container"></div>
+    </section>
+  </main>
+
+  <script src="datos-reservas.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
