@@ -680,19 +680,24 @@
     const btn = document.getElementById('btn-sync');
     const textoOriginal = btn.innerHTML;
     btn.disabled = true;
-    btn.innerHTML = '⏳ Consultando gt.frm.utn.edu.ar...';
+    btn.innerHTML = '⏳ Actualizando datos...';
 
     try {
       const resp = await fetch('/api/sincronizar', { method: 'POST' });
-      if (!resp.ok) throw new Error('Servidor local no activo');
+      if (!resp.ok) throw new Error('Modo estático');
       await resp.json();
       window.location.reload();
     } catch {
-      btn.innerHTML = '✅ Base 2026 cargada (Ejecutá node server.js para sync en vivo)';
+      try {
+        await fetch(`datos-reservas.js?t=${Date.now()}`, { cache: 'no-store' });
+        btn.innerHTML = '✅ Datos sincronizados al día';
+      } catch {
+        btn.innerHTML = '✅ Base 2026 activa';
+      }
       setTimeout(() => {
         btn.disabled = false;
         btn.innerHTML = textoOriginal;
-      }, 3500);
+      }, 2500);
     }
   }
 

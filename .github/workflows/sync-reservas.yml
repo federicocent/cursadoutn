@@ -1,0 +1,31 @@
+name: Sincronizar Reservas UTN FRM
+
+on:
+  schedule:
+    - cron: '0 9 * * 1-6'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Extraer datos de gt.frm.utn.edu.ar/reservas
+        run: node actualizar-datos.js
+
+      - name: Guardar cambios si hubo actualizaciones
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add datos-reservas.js
+          git diff --staged --quiet || (git commit -m "chore: actualizar datos de reservas UTN FRM" && git push)
